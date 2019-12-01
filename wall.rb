@@ -91,9 +91,10 @@ class PassageWayTypeA
       sx = (self.sz * (bx + self.x) / self.z) + Window.width / 2
       sy = (self.sz * (by + self.y) / self.z) + Window.height / 2
       scale = self.sz / self.z
-      a = 1.0 - (1.0 * (self.z - 300) / 2900.0)
-      a = 0 if a < 0
-      a = 1.0 if a > 1.0
+      p Window.width
+      #a = 1.0 - (1.0 * (self.z - 300) / 2900.0)
+      #a = 0 if a < 0
+      #a = 1.0 if a > 1.0
       #self.shader.v = a
       Window.draw_ex(sx, sy, self.image,
                     :scale_x => scale, :scale_y => scale,
@@ -122,6 +123,9 @@ class PassageWayTypeA
       self.walls.push(Wall.new(imgs[i % imgs.length], x, y, z, scr_z))
       z += zadd
     end
+    #self.x = 0
+    #self.y = 0
+    #self.z = z
   end
  
   #

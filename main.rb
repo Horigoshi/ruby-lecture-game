@@ -14,8 +14,8 @@ Image.register(:wall2,'images/wall2.png')
 Image.register(:floor,'images/floor_fg.png')
 
 Window.load_resources do
-  Window.width  = 1200
-  Window.height = 800
+  Window.width  = 640
+  Window.height = 480
 
   player_img = Image[:player]
   player_img.set_color_key([0, 0, 0])
