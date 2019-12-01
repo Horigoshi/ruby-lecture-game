@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+require 'rack'
+require 'thor'
+# require_relative '../lib/dxopal/version' # Import DXOpal::VERSION
+
+module DXOpal
+  class Cli < Thor
+    GEM_ROOT = "#{__dir__}/../"
+
+    desc "new APP_PATH", "Create a DXOpal project"
+    def new(app_path)
+      if File.exist?(app_path)
+        puts "Already exists: #{app_path}"
+        return
+      end
+      FileUtils.mkdir_p(app_path)
+      Dir.chdir(app_path) do
+        init
+      end
+    end
+
+    desc "init", "Copy template files into this directory"
+    def init
+      FileUtils.cp("#{GEM_ROOT}/template/index.html", Dir.pwd)
+      puts "Wrote index.html"
+      FileUtils.cp("#{GEM_ROOT}/template/main.rb", Dir.pwd)
+      puts "Wrote main.rb"
+      FileUtils.cp("#{GEM_ROOT}/build/dxopal.min.js", Dir.pwd)
+      puts "Wrote dxopal.min.js"
+    end
+
+    desc "update", "Update dxopal.min.js"
+    def update
+      src = "#{GEM_ROOT}/build/dxopal.min.js"
+      dst = "#{Dir.pwd}/dxopal.min.js"
+      if File.exist?(dst) && File.read(src) == File.read(dst)
+        puts "dxopal.min.js is already up-to-date."
+        return
+      end
+      FileUtils.cp(src, dst)
+      puts "Wrote #{dst}"
+    end
+
+    desc "server", "Start local server"
+    option "port", aliases: :p, type: :numeric, default: 7521
+    option "host", aliases: :b, type: :string, default: 'localhost'
+    def server
+      puts "Starting DXOpal Server"
+      puts "(Open http://#{options[:host]}:#{options[:port]}/index.html in the browser)"
+      puts "---"
+      app = Rack::Directory.new(Dir.pwd)
+      Rack::Server.start(app: app, Port: options[:port], Host: options[:host])
+    end
+  end
+end
+
+# puts "DXOpal v#{DXOpal::VERSION}"
+DXOpal::Cli.start
