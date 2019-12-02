@@ -88,8 +88,8 @@ class PassageWayTypeA
     # @param [Number] by 描画位置オフセットy
     #
     def draw(bx, by)
-      sx = (self.sz * (bx + self.x) / self.z) + Window.width / 2
-      sy = (self.sz * (by + self.y) / self.z) + Window.height / 2
+      sx = (self.sz * (bx + self.x) / self.z) #+ Window.width / 2
+      sy = (self.sz * (by + self.y) / self.z) #+ Window.height / 2
       scale = self.sz / self.z
       p Window.width
       #a = 1.0 - (1.0 * (self.z - 300) / 2900.0)
@@ -114,7 +114,7 @@ class PassageWayTypeA
   # @param [Number] scr_z 視点からスクリーン(画面)までの距離
   # @param [Number] num 壁の枚数
   #
-  def initialize(imgs, scr_z, num = 8)
+  def initialize(imgs, scr_z, num = 20)
     self.walls = []
     z = 3200.0
     zadd = 3200 / num

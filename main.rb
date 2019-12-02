@@ -40,10 +40,10 @@ Window.load_resources do
   Window.loop do
     #Sprite.update(enemies)
     #Sprite.draw(enemies)
-     wall.update(0, 0, -25)
+     wall.update(0, 0, -50)
      wall.draw(0, 0)
  
-     Window.draw(0, 0, floor)
+     Window.draw(rand(8)-4, rand(3), floor)
 
     # 当たり判定
     #Sprite.check(player, enemies)
