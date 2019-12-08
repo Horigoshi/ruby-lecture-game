@@ -34,16 +34,19 @@ Window.load_resources do
   floor = Image[:floor]
   
   player = Player.new(400, 500, player_img)
-  wall =PassageWayTypeA.new(wall_imgs,300)
+  wall =PassageWayTypeA.new(wall_imgs,400)
 
 
   Window.loop do
     #Sprite.update(enemies)
     #Sprite.draw(enemies)
-     wall.update(0, 0, -50)
-     wall.draw(0, 0)
- 
-     Window.draw(rand(8)-4, rand(3), floor)
+    if Input.key_down?(K_W)
+     wall.update(0, 0, -10)
+    elsif Input.key_down?(K_S)
+     wall.update(0, 0, 10)
+    end
+    wall.draw(0, 0)
+    Window.draw(rand(8)-4, rand(3), floor)
 
     # 当たり判定
     #Sprite.check(player, enemies)
