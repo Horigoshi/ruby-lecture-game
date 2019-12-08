@@ -12,6 +12,9 @@ Image.register(:enemy, 'images/enemy.png')
 Image.register(:wall1,'images/wall1.png')
 Image.register(:wall2,'images/wall2.png')
 Image.register(:floor,'images/floor_fg.png')
+Image.register(:title, 'images/TITLE.png') 
+Image.register(:fin, 'images/fin.png') 
+
 
 Window.load_resources do
   Window.width  = 640
@@ -35,20 +38,41 @@ Window.load_resources do
   
   player = Player.new(400, 500, player_img)
   wall =PassageWayTypeA.new(wall_imgs,400)
-
-
+  title_img = Image[:title] 
+  fin_img = Image[:fin]
+ 
+# ゲームの画面遷移用変数
+# タイトル->ゲーム->エンディングのループ 
+  game_flag = 0
+  
   Window.loop do
-    #Sprite.update(enemies)
-    #Sprite.draw(enemies)
-    if Input.key_down?(K_W)
-     wall.update(0, 0, -10)
-    elsif Input.key_down?(K_S)
-     wall.update(0, 0, 10)
+# タイトル画面
+    if(game_flag == 0)
+        Window.draw(0,0,title_img)
+        if Input.key_down?(K_ENTER)
+            game_flag = 1
+        end
+# ゲーム画面
+    elsif(game_flag == 1)
+# Wキーで前進,Sキーで後退
+# デバッグ用にQキーでエンディング
+        if Input.key_down?(K_W)
+            wall.update(0, 0, -10)
+        elsif Input.key_down?(K_S)
+            wall.update(0, 0, 10)
+        end
+        if Input.key_down?(K_Q)
+            game_flag = 2
+        end
+        wall.draw(0, 0)
+        Window.draw(rand(8)-4, rand(3), floor)
+        
+# エンディング画面
+    elsif(game_flag == 2)
+        Window.draw(0,0,fin_img)
+        if Input.key_down?(K_ENTER)
+            game_flag = 0
+        end
     end
-    wall.draw(0, 0)
-    Window.draw(rand(8)-4, rand(3), floor)
-
-    # 当たり判定
-    #Sprite.check(player, enemies)
-  end
+ end
 end
