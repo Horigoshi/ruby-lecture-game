@@ -11,7 +11,7 @@ Image.register(:enemy, 'images/enemy.png')
 
 Image.register(:wall1,'images/wall1.png')
 Image.register(:wall2,'images/wall2.png')
-Image.register(:floor,'images/floor_fg.png')
+Image.register(:floor,'images/hand.png')
 Image.register(:title, 'images/TITLE.png') 
 Image.register(:fin, 'images/fin.png') 
 
@@ -40,6 +40,7 @@ Window.load_resources do
   wall =PassageWayTypeA.new(wall_imgs,400)
   title_img = Image[:title] 
   fin_img = Image[:fin]
+  playerfrag_move=0
  
 # ゲームの画面遷移用変数
 # タイトル->ゲーム->エンディングのループ 
@@ -56,17 +57,25 @@ Window.load_resources do
     elsif(game_flag == 1)
 # Wキーで前進,Sキーで後退
 # デバッグ用にQキーでエンディング
-        if Input.key_down?(K_W)
-            wall.update(0, 0, -10)
-        elsif Input.key_down?(K_S)
-            wall.update(0, 0, 10)
-        end
-        if Input.key_down?(K_Q)
+    if Input.key_down?(K_W)
+     wall.update(0, 0, -10)
+     playerfrag_move = 1
+    elsif Input.key_down?(K_S)
+     wall.update(0, 0, 10)
+     playerfrag_move = 1
+    end
+    if Input.key_release?(K_W)
+     playerfrag_move =0
+    elsif Input.key_release?(K_S)
+     playerfrag_move =0
+    end
+      if Input.key_down?(K_Q)
             game_flag = 2
         end
-        wall.draw(0, 0)
-        Window.draw(rand(8)-4, rand(3), floor)
-        
+    wall.draw(0, 0)
+    Window.draw_ex(0, rand(3) * playerfrag_move , floor, :scale_x => 0.6, :scale_y => 0.6,
+                                      :center_x => Window.width / 2,
+                                      :center_y => Window.height + 100)
 # エンディング画面
     elsif(game_flag == 2)
         Window.draw(0,0,fin_img)
