@@ -105,6 +105,16 @@ class PassageWayTypeA
   def update(dx, dy, dz, d_ang_z = 0, del_enable = false)
     self.walls.each do |spr|
       spr.update(dx, dy, dz)
+      #which_road = map.read_road(x,y,)
+      #if 配列の値が　壁壁壁　ならば
+      #spr =Wall.new(壁壁壁の画像,spr.x,spr.y,spr.z,spr.sz)
+      #elsif 配列の値が　壁空壁　ならば
+      #spr =Wall.new(壁空壁の画像,spr.x,spr.y,spr.z,spr.sz) 
+      #elsif 配列の値が　壁空空　ならば
+      #spr =Wall.new(壁空空の画像,spr.x,spr.y,spr.z,spr.sz) 
+      #elsif 配列の値が　空空壁　ならば
+      #spr =Wall.new(空空壁の画像,spr.x,spr.y,spr.z,spr.sz)
+      #end
       if(dz < 0)
         if spr.z < spr.sz - 100
         # 投影面より手前に来たので
